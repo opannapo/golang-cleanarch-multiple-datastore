@@ -1,0 +1,6 @@
+/.idea/
+go.mod
+go.sum
+go_build_app
+napo-go-firestore.iml
+/config/firebase

@@ -66,7 +66,7 @@ func SetupDbConnection() *gorm.DB {
 
 func SetupFirestore() *firestore.Client {
 	ctx := context.Background()
-	sa := option.WithCredentialsFile("./config/<FILE_JSON_GOOGLE_CONFIG>")
+	sa := option.WithCredentialsFile("./config/firebase/firebase-config.json")
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
 		log.Fatalln(err)
