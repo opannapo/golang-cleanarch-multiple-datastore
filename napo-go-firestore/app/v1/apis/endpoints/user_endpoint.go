@@ -3,9 +3,7 @@ package endpoints
 import (
 	super "app/app/base"
 	"app/app/v1/apis/param"
-	"app/app/v1/entities"
 	"app/app/v1/injection"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -46,7 +44,7 @@ func (instance *UserEndpoint) addUser(c *gin.Context) {
 		return
 	}
 
-	mysqlUser := instance.services.MysqlUserService
+	/*mysqlUser := instance.services.MysqlUserService
 	mysqlTopic := instance.services.MysqlTopicTypeService
 	mysqlUserFollowingTopic := instance.services.MysqlUserFollowingTopicService
 	firestoreUser := instance.services.FirestoreUserService
@@ -127,7 +125,12 @@ func (instance *UserEndpoint) addUser(c *gin.Context) {
 
 	txInsertTopic.Commit()
 	txInsertUser.Commit()
-	txInsertUserFollowingTopic.Commit()
+	txInsertUserFollowingTopic.Commit()*/
+	err = instance.services.MysqlUserService.AddUser(&p)
+	if err != nil {
+		super.OutFailed(c, 500, err.Error())
+		return
+	}
 	super.OutOk(c, p)
 }
 
