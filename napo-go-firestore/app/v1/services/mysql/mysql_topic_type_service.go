@@ -2,41 +2,36 @@ package mysql
 
 import (
 	"app/app/v1/entities"
+	"app/app/v1/injection"
 	"app/app/v1/services"
-	"github.com/jinzhu/gorm"
 )
 
 type TopicTypeServiceImpl struct {
-	Db *gorm.DB
+	Repository *injection.RepositoryInjection
 }
 
 func (instance *TopicTypeServiceImpl) GetOneByLabel(label string) (result entities.TopicType, err error) {
-	err = instance.Db.Where("label=?", label).First(&result).Error
+	//err = instance.Db.Where("label=?", label).First(&result).Error
+	result, err = instance.Repository.MysqlTopicTypeRepo.GetByLabel(label)
 	return
 }
 
-func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err error, tx *gorm.DB) {
-	tx = instance.Db.Begin()
-	for i := range data {
-		err = tx.Create(&data[i]).Error
-		if err != nil {
-			break
-		}
-	}
+func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err error) {
+	//instance.Repository.MysqlTopicTypeRepo.Inserts(data)
 
 	return
 }
 
 func (instance *TopicTypeServiceImpl) GetAll() (result []*entities.TopicType, err error) {
-	err = instance.Db.Find(&result).Error
+	result, err = instance.Repository.MysqlTopicTypeRepo.GetAll()
 	return
 }
 
 func (instance *TopicTypeServiceImpl) Insert(data *entities.TopicType) (err error) {
-	err = instance.Db.Create(&data).Error
+	//err = instance.Db.Create(&data).Error
 	return
 }
 
-func NewInstanceMysqlTopicTypeServices(db *gorm.DB) services.TopicTypeServices {
-	return &TopicTypeServiceImpl{Db: db}
+func NewInstanceMysqlTopicTypeServices(repository *injection.RepositoryInjection) services.TopicTypeServices {
+	return &TopicTypeServiceImpl{Repository: repository}
 }

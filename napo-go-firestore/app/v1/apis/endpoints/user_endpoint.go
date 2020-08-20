@@ -140,7 +140,7 @@ func (instance *UserEndpoint) deleteUser(c *gin.Context) {
 }
 
 func NewUserEndpoint(g *gin.RouterGroup, services *injection.ServiceInjection) {
-	instance := UserEndpoint{
+	instance := &UserEndpoint{
 		services: services,
 	}
 	g.GET("user", instance.getUser)

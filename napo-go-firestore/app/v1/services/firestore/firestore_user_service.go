@@ -3,22 +3,20 @@ package firestore
 import (
 	"app/app/v1/apis/param"
 	"app/app/v1/entities"
+	"app/app/v1/injection"
 	"app/app/v1/services"
-	"cloud.google.com/go/firestore"
-	"context"
-	"fmt"
-	"github.com/jinzhu/gorm"
-	"google.golang.org/api/iterator"
-	"log"
-	"strconv"
 )
 
 type UserServiceImpl struct {
-	FirestoreClient *firestore.Client
+	Repository *injection.RepositoryInjection
+}
+
+func (instance *UserServiceImpl) GetUserForAuth(username string, password string) (result *entities.User, err error) {
+	panic("implement me")
 }
 
 func (instance *UserServiceImpl) GetUsers() (result []*entities.User, err error) {
-	documentIterator := instance.FirestoreClient.
+	/*documentIterator := instance.FirestoreClient.
 		Collection("users").
 		Documents(context.Background())
 
@@ -39,7 +37,7 @@ func (instance *UserServiceImpl) GetUsers() (result []*entities.User, err error)
 			LastName:  data["lastName"].(string),
 		}
 		result = append(result, &user)
-	}
+	}*/
 
 	return
 }
@@ -48,8 +46,8 @@ func (instance *UserServiceImpl) GetUser(id int) (result entities.User, err erro
 	panic("Implement me")
 }
 
-func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error, _ *gorm.DB) {
-	user := param.User
+func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
+	/*user := param.User
 	id := strconv.FormatInt(user.Id, 10)
 	userMap := map[string]interface{}{
 		"id":              user.Id,
@@ -59,7 +57,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error, _ 
 	}
 	_, err = instance.FirestoreClient.Collection("users").
 		Doc(id).
-		Create(context.Background(), userMap)
+		Create(context.Background(), userMap)*/
 	return
 }
 
@@ -71,6 +69,6 @@ func (instance *UserServiceImpl) DeleteUser(user *entities.User) (err error) {
 	panic("implement me")
 }
 
-func NewInstanceFirestoreUserService(firestoreClient *firestore.Client) services.UserServices {
-	return &UserServiceImpl{FirestoreClient: firestoreClient}
+func NewInstanceFirestoreUserService(repository *injection.RepositoryInjection) services.UserServices {
+	return &UserServiceImpl{Repository: repository}
 }

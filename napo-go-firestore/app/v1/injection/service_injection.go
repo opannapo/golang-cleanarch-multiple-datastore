@@ -4,15 +4,12 @@ import (
 	serviceInterface "app/app/v1/services"
 	serviceImplFirestore "app/app/v1/services/firestore"
 	serviceImplMysql "app/app/v1/services/mysql"
-	"cloud.google.com/go/firestore"
-	"github.com/jinzhu/gorm"
 )
 
 type ServiceInjection struct {
 	*mysqlServicesInjected
 	*firestoreServicesInjected
-	db              *gorm.DB
-	firestoreClient *firestore.Client
+	repository *RepositoryInjection
 }
 
 type mysqlServicesInjected struct {
@@ -26,22 +23,21 @@ type firestoreServicesInjected struct {
 	FirestoreTopicTypeService serviceInterface.TopicTypeServices
 }
 
-func NewInstanceServiceInjection(db *gorm.DB, firestoreClient *firestore.Client) *ServiceInjection {
+func NewInstanceServiceInjection(repository *RepositoryInjection) *ServiceInjection {
 	ms := mysqlServicesInjected{
-		MysqlUserService:               serviceImplMysql.NewInstanceMysqlUserServices(db),
-		MysqlTopicTypeService:          serviceImplMysql.NewInstanceMysqlTopicTypeServices(db),
-		MysqlUserFollowingTopicService: serviceImplMysql.NewInstanceMysqlUserFollowingTopicService(db),
+		MysqlUserService:               serviceImplMysql.NewInstanceMysqlUserServices(repository),
+		MysqlTopicTypeService:          serviceImplMysql.NewInstanceMysqlTopicTypeServices(repository),
+		MysqlUserFollowingTopicService: serviceImplMysql.NewInstanceMysqlUserFollowingTopicService(repository),
 	}
 
 	fs := firestoreServicesInjected{
-		FirestoreUserService:      serviceImplFirestore.NewInstanceFirestoreUserService(firestoreClient),
-		FirestoreTopicTypeService: serviceImplFirestore.NewInstanceFirestoreTopicTypeService(firestoreClient),
+		FirestoreUserService:      serviceImplFirestore.NewInstanceFirestoreUserService(repository),
+		FirestoreTopicTypeService: serviceImplFirestore.NewInstanceFirestoreTopicTypeService(repository),
 	}
 
 	return &ServiceInjection{
 		mysqlServicesInjected:     &ms,
 		firestoreServicesInjected: &fs,
-		db:                        db,
-		firestoreClient:           firestoreClient,
+		repository:                repository,
 	}
 }

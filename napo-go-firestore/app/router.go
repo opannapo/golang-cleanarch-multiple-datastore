@@ -30,6 +30,7 @@ func SetupRoute(services *injection.ServiceInjection) {
 	//initial controllers
 	endpoints.NewIndexEndpoint(v1)
 	endpoints.NewUserEndpoint(v1, services)
+	endpoints.NewAuthEndpoint(v1, services)
 
 	_ = router.Run(viper.GetString("server.address"))
 }

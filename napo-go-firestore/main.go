@@ -83,8 +83,9 @@ func cmdStart(evn string) {
 	firestoreClient := app.SetupFirestore()
 	defer firestoreClient.Close()
 
-	//Inject Dependency for All Services
-	services := injection.NewInstanceServiceInjection(db, firestoreClient)
+	//Inject Dependency for All Repository & Services
+	repository := injection.NewInstanceRepositoryInjection(db, firestoreClient)
+	services := injection.NewInstanceServiceInjection(repository)
 
 	//setup router
 	app.SetupRoute(services)

@@ -2,15 +2,12 @@ package firestore
 
 import (
 	"app/app/v1/entities"
+	"app/app/v1/injection"
 	"app/app/v1/services"
-	"cloud.google.com/go/firestore"
-	"context"
-	"github.com/jinzhu/gorm"
-	"strconv"
 )
 
 type TopicTypeServiceImpl struct {
-	FirestoreClient *firestore.Client
+	Repository *injection.RepositoryInjection
 }
 
 func (instance *TopicTypeServiceImpl) GetAll() (result []*entities.TopicType, err error) {
@@ -25,8 +22,8 @@ func (instance *TopicTypeServiceImpl) Insert(data *entities.TopicType) (err erro
 	panic("implement me")
 }
 
-func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err error, tx *gorm.DB) {
-	for i := range data {
+func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err error) {
+	/*for i := range data {
 		tmpData := data[i]
 		id := strconv.FormatInt(tmpData.Id, 10)
 		topicTypeMap := map[string]interface{}{
@@ -40,11 +37,11 @@ func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err e
 		if err != nil {
 			break
 		}
-	}
+	}*/
 
 	return
 }
 
-func NewInstanceFirestoreTopicTypeService(firestoreClient *firestore.Client) services.TopicTypeServices {
-	return &TopicTypeServiceImpl{FirestoreClient: firestoreClient}
+func NewInstanceFirestoreTopicTypeService(repository *injection.RepositoryInjection) services.TopicTypeServices {
+	return &TopicTypeServiceImpl{Repository: repository}
 }
