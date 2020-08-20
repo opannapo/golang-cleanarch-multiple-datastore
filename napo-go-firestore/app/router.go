@@ -3,12 +3,12 @@ package app
 import (
 	"app/app/base"
 	"app/app/v1/apis/endpoints"
-	"app/app/v1/injection"
+	"app/app/v1/injection/services"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
-func SetupRoute(services *injection.ServiceInjection) {
+func SetupRoute(services *services.ServiceInjection) {
 	gin.SetMode(viper.GetString("mode"))
 	router := gin.Default()
 

@@ -1,13 +1,13 @@
-package mysql
+package mysql_services
 
 import (
 	"app/app/v1/entities"
-	"app/app/v1/injection"
+	"app/app/v1/injection/repository"
 	"app/app/v1/services"
 )
 
 type TopicTypeServiceImpl struct {
-	Repository *injection.RepositoryInjection
+	Repository *repository.RepositoryInjection
 }
 
 func (instance *TopicTypeServiceImpl) GetOneByLabel(label string) (result entities.TopicType, err error) {
@@ -32,6 +32,6 @@ func (instance *TopicTypeServiceImpl) Insert(data *entities.TopicType) (err erro
 	return
 }
 
-func NewInstanceMysqlTopicTypeServices(repository *injection.RepositoryInjection) services.TopicTypeServices {
+func NewInstanceMysqlTopicTypeServices(repository *repository.RepositoryInjection) services.TopicTypeServices {
 	return &TopicTypeServiceImpl{Repository: repository}
 }

@@ -1,6 +1,7 @@
-package injection
+package services
 
 import (
+	"app/app/v1/injection/repository"
 	serviceInterface "app/app/v1/services"
 	serviceImplFirestore "app/app/v1/services/firestore"
 	serviceImplMysql "app/app/v1/services/mysql"
@@ -9,7 +10,7 @@ import (
 type ServiceInjection struct {
 	*mysqlServicesInjected
 	*firestoreServicesInjected
-	repository *RepositoryInjection
+	repository *repository.RepositoryInjection
 }
 
 type mysqlServicesInjected struct {
@@ -23,7 +24,7 @@ type firestoreServicesInjected struct {
 	FirestoreTopicTypeService serviceInterface.TopicTypeServices
 }
 
-func NewInstanceServiceInjection(repository *RepositoryInjection) *ServiceInjection {
+func NewInstanceServiceInjection(repository *repository.RepositoryInjection) *ServiceInjection {
 	ms := mysqlServicesInjected{
 		MysqlUserService:               serviceImplMysql.NewInstanceMysqlUserServices(repository),
 		MysqlTopicTypeService:          serviceImplMysql.NewInstanceMysqlTopicTypeServices(repository),

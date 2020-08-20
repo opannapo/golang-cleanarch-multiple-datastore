@@ -1,4 +1,4 @@
-package firestore
+package firestore_repository
 
 import (
 	"app/app/v1/apis/param"

@@ -1,4 +1,4 @@
-package mysql
+package mysql_repository
 
 import (
 	"app/app/v1/entities"

@@ -1,4 +1,4 @@
-package injection
+package repository
 
 import (
 	"app/app/v1/repository"
