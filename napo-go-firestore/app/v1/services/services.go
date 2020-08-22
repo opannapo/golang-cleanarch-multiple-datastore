@@ -27,5 +27,5 @@ type UserFollowingTopicServices interface {
 }
 
 type AuthServices interface {
-	InsertCredential(para *param.UserCreate) (err error)
+	ValidateCredential(param *param.AuthParam) (result entities.Credential, token string, err error)
 }

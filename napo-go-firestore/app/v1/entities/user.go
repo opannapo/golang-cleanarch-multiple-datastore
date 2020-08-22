@@ -8,7 +8,7 @@ type User struct {
 	BirthDate      int64                 `json:"birth_date,omitempty"`
 	Phone          string                `json:"phone,omitempty"`
 	Email          string                `json:"email,omitempty"`
-	FollowingTopic []*UserFollowingTopic `gorm:"foreignkey:UserId;association_foreignkey:Id" json:"following_topic"`
+	FollowingTopic []*UserFollowingTopic `gorm:"foreignkey:UserId;association_foreignkey:Id" json:"following_topic,omitempty"`
 	Credential     *Credential           `gorm:"foreignkey:UserId;association_foreignkey:Id" json:"credential,omitempty"`
 }
 

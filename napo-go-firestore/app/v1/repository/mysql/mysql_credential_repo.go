@@ -17,11 +17,13 @@ func (instance *CredentialRepoImpl) Insert(param *param.UserCreate) (err error, 
 	return
 }
 
-func (instance *CredentialRepoImpl) GetByKeySignature(key string, signature string) (result *entities.Credential, err error) {
+func (instance *CredentialRepoImpl) GetByKeySignature(key string, signature string) (result entities.Credential, err error) {
 	err = instance.Db.
-		Where("key=?", key).
-		Where("signature=?", signature).
-		Find(&result).Error
+		Preload("User").
+		Where("`key`=?", key).
+		Where("`signature`=?", signature).
+		First(&result).Error
+
 	return
 }
 

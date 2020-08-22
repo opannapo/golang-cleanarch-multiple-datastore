@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"app/app/base"
+	"app/app/v1/apis/endpoints/base"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -35,10 +35,9 @@ func ValidateHeaderToken() gin.HandlerFunc {
 		//validate jwt
 		tokenString := splitHeaderAuth[1]
 		key := viper.GetString("jwtKey")
-		_, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		_, err := jwt.Parse(tokenString, func(token *jwt.Token) (i interface{}, e error) {
 			fmt.Printf("Token Parse Token  %+v\n", token)
-			//Validate Algorithm HS256
-			if token.Method != jwt.GetSigningMethod("HS256") {
+			if token.Method != jwt.GetSigningMethod("HS256") { //Validate Algorithm HS256
 				return nil, fmt.Errorf("Invalid Algorithm for token %v ", tokenString)
 			}
 			return []byte(key), nil

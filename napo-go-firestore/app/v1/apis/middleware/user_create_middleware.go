@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"app/app/base"
+	"app/app/v1/apis/endpoints/base"
 	"app/app/v1/apis/param"
 	"github.com/gin-gonic/gin"
 	"net/http"

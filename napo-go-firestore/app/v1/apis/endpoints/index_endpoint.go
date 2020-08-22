@@ -1,7 +1,7 @@
 package endpoints
 
 import (
-	super "app/app/base"
+	"app/app/v1/apis/endpoints/base"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +16,7 @@ func home(c *gin.Context) {
 		"/directory",
 		"/help",
 	}
-	super.OutOk(c, explorer)
+	base.OutOk(c, explorer)
 }
 
 func directory(c *gin.Context) {
@@ -27,5 +27,5 @@ func directory(c *gin.Context) {
 		"/employee",
 		"/employee/{ID}",
 	}
-	super.OutOk(c, explorer)
+	base.OutOk(c, explorer)
 }

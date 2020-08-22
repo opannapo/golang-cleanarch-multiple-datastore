@@ -1,8 +1,8 @@
 package app
 
 import (
-	"app/app/base"
 	"app/app/v1/apis/endpoints"
+	"app/app/v1/apis/endpoints/base"
 	"app/app/v1/injection/services"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
