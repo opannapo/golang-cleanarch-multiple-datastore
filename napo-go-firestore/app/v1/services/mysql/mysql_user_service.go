@@ -86,7 +86,8 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	}
 
 	//Insert User Credential
-	err, txInsertCredential := mysqlCredentialRepo.Insert(param)
+	param.Credential.UserId = param.User.Id
+	err, txInsertCredential := mysqlCredentialRepo.Insert(param.Credential)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()

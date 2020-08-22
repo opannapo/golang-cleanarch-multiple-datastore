@@ -1,7 +1,6 @@
 package mysql_repository
 
 import (
-	"app/app/v1/apis/param"
 	"app/app/v1/entities"
 	"app/app/v1/repository"
 	"github.com/jinzhu/gorm"
@@ -11,9 +10,9 @@ type CredentialRepoImpl struct {
 	Db *gorm.DB
 }
 
-func (instance *CredentialRepoImpl) Insert(param *param.UserCreate) (err error, tx *gorm.DB) {
+func (instance *CredentialRepoImpl) Insert(data *entities.Credential) (err error, tx *gorm.DB) {
 	tx = instance.Db.Begin()
-	err = instance.Db.Create(&param.Credential).Error
+	err = instance.Db.Create(&data).Error
 	return
 }
 
