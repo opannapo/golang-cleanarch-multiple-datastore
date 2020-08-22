@@ -29,4 +29,5 @@ type UserFollowingTopicRepo interface {
 
 type CredentialRepo interface {
 	GetByKeySignature(key string, signature string) (result *entities.Credential, err error)
+	Insert(param *param.UserCreate) (err error, tx *gorm.DB)
 }

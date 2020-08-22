@@ -30,6 +30,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	mysqlUserRepo := instance.Repository.MysqlUserRepo
 	mysqlTopicRepo := instance.Repository.MysqlTopicTypeRepo
 	mysqlUserFollowingTopicRepo := instance.Repository.MysqlUserFollowingTopicRepo
+	mysqlCredentialRepo := instance.Repository.MysqlCredentialRepo
 	firestoreUserRepo := instance.Repository.FirestoreUserRepo
 	firestoreTopicTypeRepo := instance.Repository.FirestoreTopicTypeRepo
 
@@ -84,12 +85,23 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		return
 	}
 
+	//Insert User Credential
+	err, txInsertCredential := mysqlCredentialRepo.Insert(param)
+	if err != nil {
+		txInsertTopic.Rollback()
+		txInsertUser.Rollback()
+		txInsertUserFollowingTopic.Rollback()
+		txInsertCredential.Rollback()
+		return
+	}
+
 	//Insert FirestoreServicesInjected User
 	err, _ = firestoreUserRepo.Insert(param)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
+		txInsertCredential.Rollback()
 		return
 	}
 
@@ -98,12 +110,15 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
+		txInsertCredential.Rollback()
 		return
 	}
 
 	txInsertTopic.Commit()
 	txInsertUser.Commit()
 	txInsertUserFollowingTopic.Commit()
+	txInsertCredential.Commit()
+
 	return
 }
 

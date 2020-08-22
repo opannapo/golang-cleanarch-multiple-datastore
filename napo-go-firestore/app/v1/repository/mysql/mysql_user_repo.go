@@ -15,6 +15,7 @@ func (instance *UserRepoImpl) GetAll() (result []*entities.User, err error) {
 	err = instance.Db.
 		Preload("FollowingTopic").
 		Preload("FollowingTopic.TopicType").
+		//Preload("Credential").
 		Find(&result).Error
 	return
 }
@@ -23,6 +24,7 @@ func (instance *UserRepoImpl) GetById(id int) (result entities.User, err error) 
 	err = instance.Db.
 		Preload("FollowingTopic").
 		Preload("FollowingTopic.TopicType").
+		//Preload("Credential").
 		Where("id=?", id).First(&result).Error
 	return
 }

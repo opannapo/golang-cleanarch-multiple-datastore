@@ -2,8 +2,10 @@ package endpoints
 
 import (
 	super "app/app/base"
+	"app/app/v1/apis/middleware"
 	"app/app/v1/apis/param"
 	"app/app/v1/injection/services"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -37,10 +39,17 @@ func (instance *UserEndpoint) getUsers(c *gin.Context) {
 }
 
 func (instance *UserEndpoint) addUser(c *gin.Context) {
+	fmt.Println("UserCreateMiddleware UserCreateMiddleware UserCreateMiddleware UserCreateMiddleware 7777 ")
 	var p param.UserCreate
 	err := c.ShouldBindJSON(&p)
 	if err != nil {
 		super.OutFailed(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if p.Credential == nil {
+		super.OutFailed(c, http.StatusBadRequest, "Param Credential Required")
+		c.AbortWithStatus(200)
 		return
 	}
 
@@ -64,9 +73,25 @@ func NewUserEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
 	instance := &UserEndpoint{
 		services: services,
 	}
-	g.GET("user", instance.getUser)
+
+	g.POST("user/add", instance.addUser)
+
+	/*gUserAuth := g.Use(func(c *gin.Context) {
+		fmt.Println("auth----------------------auth----------------------")
+		c.Next()
+	})*/
+
+	gUserAuth := g.Use(middleware.ValidateHeaderToken())
+	{
+		gUserAuth.GET("user", instance.getUser)
+		gUserAuth.GET("users", instance.getUsers)
+		gUserAuth.POST("user/update", instance.updateUser)
+		gUserAuth.POST("user/delete", instance.deleteUser)
+	}
+
+	/*g.GET("user", instance.getUser)
 	g.GET("users", instance.getUsers)
 	g.POST("user/add", instance.addUser)
 	g.POST("user/update", instance.updateUser)
-	g.POST("user/delete", instance.deleteUser)
+	g.POST("user/delete", instance.deleteUser)*/
 }

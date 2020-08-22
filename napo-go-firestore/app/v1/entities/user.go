@@ -9,6 +9,7 @@ type User struct {
 	Phone          string                `json:"phone,omitempty"`
 	Email          string                `json:"email,omitempty"`
 	FollowingTopic []*UserFollowingTopic `gorm:"foreignkey:UserId;association_foreignkey:Id" json:"following_topic"`
+	Credential     *Credential           `gorm:"foreignkey:UserId;association_foreignkey:Id" json:"credential,omitempty"`
 }
 
 func (*User) TableName() string {

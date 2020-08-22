@@ -1,6 +1,7 @@
 package param
 
 type AuthParam struct {
-	Username string `json:"uname"`
-	Password string `json:"pwd"`
+	Key       string `json:"key"`
+	Signature string `json:"signature"`
+	Type      int64  `json:"type"`
 }
