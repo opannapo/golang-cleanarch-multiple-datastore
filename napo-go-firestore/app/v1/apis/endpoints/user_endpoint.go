@@ -76,11 +76,6 @@ func NewUserEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
 
 	g.POST("user/add", instance.addUser)
 
-	/*gUserAuth := g.Use(func(c *gin.Context) {
-		fmt.Println("auth----------------------auth----------------------")
-		c.Next()
-	})*/
-
 	gUserAuth := g.Use(middleware.ValidateHeaderToken())
 	{
 		gUserAuth.GET("user", instance.getUser)

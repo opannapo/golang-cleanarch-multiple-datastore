@@ -2,12 +2,12 @@ package mysql_services
 
 import (
 	"app/app/v1/entities"
-	"app/app/v1/injection/repository"
+	"app/app/v1/injection/repositories"
 	"app/app/v1/services"
 )
 
 type UserFollowingTopicService struct {
-	Repository *repository.RepositoryInjection
+	Repository *repositories.RepositoryInjection
 }
 
 func (instance *UserFollowingTopicService) Insert(data *entities.UserFollowingTopic) (err error) {
@@ -25,6 +25,6 @@ func (instance *UserFollowingTopicService) Inserts(data []*entities.UserFollowin
 	return
 }
 
-func NewInstanceMysqlUserFollowingTopicService(repository *repository.RepositoryInjection) services.UserFollowingTopicServices {
+func NewInstanceMysqlUserFollowingTopicService(repository *repositories.RepositoryInjection) services.UserFollowingTopicServices {
 	return &UserFollowingTopicService{Repository: repository}
 }

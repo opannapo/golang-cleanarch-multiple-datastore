@@ -1,4 +1,4 @@
-package repository
+package repositories
 
 import (
 	"app/app/v1/repository"

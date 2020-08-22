@@ -2,12 +2,12 @@ package firestore_services
 
 import (
 	"app/app/v1/entities"
-	"app/app/v1/injection/repository"
+	"app/app/v1/injection/repositories"
 	"app/app/v1/services"
 )
 
 type TopicTypeServiceImpl struct {
-	Repository *repository.RepositoryInjection
+	Repository *repositories.RepositoryInjection
 }
 
 func (instance *TopicTypeServiceImpl) GetAll() (result []*entities.TopicType, err error) {
@@ -42,6 +42,6 @@ func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err e
 	return
 }
 
-func NewInstanceFirestoreTopicTypeService(repository *repository.RepositoryInjection) services.TopicTypeServices {
+func NewInstanceFirestoreTopicTypeService(repository *repositories.RepositoryInjection) services.TopicTypeServices {
 	return &TopicTypeServiceImpl{Repository: repository}
 }

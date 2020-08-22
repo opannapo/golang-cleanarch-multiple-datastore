@@ -2,7 +2,7 @@ package main
 
 import (
 	"app/app"
-	repository2 "app/app/v1/injection/repository"
+	repository2 "app/app/v1/injection/repositories"
 	services2 "app/app/v1/injection/services"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"

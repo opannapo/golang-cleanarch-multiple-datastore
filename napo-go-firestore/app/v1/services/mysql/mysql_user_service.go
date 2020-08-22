@@ -3,13 +3,13 @@ package mysql_services
 import (
 	"app/app/v1/apis/param"
 	"app/app/v1/entities"
-	"app/app/v1/injection/repository"
+	"app/app/v1/injection/repositories"
 	"app/app/v1/services"
 	"fmt"
 )
 
 type UserServiceImpl struct {
-	Repository *repository.RepositoryInjection
+	Repository *repositories.RepositoryInjection
 }
 
 func (instance *UserServiceImpl) GetUserForAuth(username string, password string) (result *entities.User, err error) {
@@ -130,6 +130,6 @@ func (instance *UserServiceImpl) DeleteUser(user *entities.User) (err error) {
 	panic("implement me")
 }
 
-func NewInstanceMysqlUserServices(repository *repository.RepositoryInjection) services.UserServices {
+func NewInstanceMysqlUserServices(repository *repositories.RepositoryInjection) services.UserServices {
 	return &UserServiceImpl{Repository: repository}
 }
