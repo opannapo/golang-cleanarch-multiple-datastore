@@ -13,5 +13,6 @@
     "pass": "napouser",
     "name": "napo-firestore"
   },
-  "reqToken": "ABC"
+  "reqToken": "ABC",
+  "jwtKey": "12345678"
 }

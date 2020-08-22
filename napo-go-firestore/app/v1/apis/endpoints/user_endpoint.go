@@ -5,7 +5,6 @@ import (
 	"app/app/v1/apis/middleware"
 	"app/app/v1/apis/param"
 	"app/app/v1/injection/services"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -39,7 +38,6 @@ func (instance *UserEndpoint) getUsers(c *gin.Context) {
 }
 
 func (instance *UserEndpoint) addUser(c *gin.Context) {
-	fmt.Println("UserCreateMiddleware UserCreateMiddleware UserCreateMiddleware UserCreateMiddleware 7777 ")
 	var p param.UserCreate
 	err := c.ShouldBindJSON(&p)
 	if err != nil {
