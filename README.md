@@ -1,7 +1,9 @@
 # golang-cleanarch-multiple-datastore
 Golang CleanArch With Multiple Data Store
 
+<a href="https://goreportcard.com/report/github.com/opannapo/golang-cleanarch-multiple-datastore" target="_blank">
 ![Go Report](https://goreportcard.com/badge/github.com/opannapo/golang-cleanarch-multiple-datastore)
+</a>
 
 | K | V
 | ------ | ------ | 
