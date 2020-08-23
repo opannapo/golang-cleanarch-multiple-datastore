@@ -1,4 +1,4 @@
-package firestore_repository
+package firestorerepository
 
 import (
 	"app/app/v1/entities"
@@ -9,28 +9,33 @@ import (
 	"strconv"
 )
 
+//TopicTypeRepoImpl implementation of interface
 type TopicTypeRepoImpl struct {
 	FirestoreClient *firestore.Client
 }
 
+//GetAll TopicTypeRepoImpl get all data, result as slice and err
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
 	panic("implement me")
 }
 
+//GetByLabel TopicTypeRepoImpl get by label
 func (instance *TopicTypeRepoImpl) GetByLabel(label string) (result entities.TopicType, err error) {
 	panic("implement me")
 }
 
+//Insert TopicTypeRepoImpl, insert one
 func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) {
 	panic("implement me")
 }
 
-func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (err error, tx *gorm.DB) {
+//Inserts TopicTypeRepoImpl, insert multiple
+func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *gorm.DB, err error) {
 	for i := range data {
 		tmpData := data[i]
-		id := strconv.FormatInt(tmpData.Id, 10)
+		id := strconv.FormatInt(tmpData.ID, 10)
 		topicTypeMap := map[string]interface{}{
-			"id":    tmpData.Id,
+			"id":    tmpData.ID,
 			"label": tmpData.Label,
 		}
 		_, err = instance.FirestoreClient.Collection("topic_type").
@@ -45,6 +50,7 @@ func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (err erro
 	return
 }
 
+//NewInstanceFirestoreTopicTypeRepoImpl new instance of TopicTypeRepoImpl
 func NewInstanceFirestoreTopicTypeRepoImpl(firestoreClient *firestore.Client) repository.TopicTypeRepo {
 	return &TopicTypeRepoImpl{FirestoreClient: firestoreClient}
 }

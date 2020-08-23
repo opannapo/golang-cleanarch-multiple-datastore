@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//NewIndexEndpoint new IndexEndpoint
 func NewIndexEndpoint(g *gin.RouterGroup) {
 	g.GET("/", home)
 	g.GET("/directory", directory)

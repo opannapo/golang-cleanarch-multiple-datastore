@@ -1,4 +1,4 @@
-package mysql_repository
+package mysqlrepository
 
 import (
 	"app/app/v1/entities"
@@ -6,15 +6,18 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//UserFollowingTopicRepoImpl implement
 type UserFollowingTopicRepoImpl struct {
 	db *gorm.DB
 }
 
-func (instance *UserFollowingTopicRepoImpl) Insert(data *entities.UserFollowingTopic) (err error, tx *gorm.DB) {
+//Insert insert one
+func (instance *UserFollowingTopicRepoImpl) Insert(data *entities.UserFollowingTopic) (tx *gorm.DB, err error) {
 	panic("implement me")
 }
 
-func (instance *UserFollowingTopicRepoImpl) Inserts(data []*entities.UserFollowingTopic) (err error, tx *gorm.DB) {
+//Inserts insert multiple
+func (instance *UserFollowingTopicRepoImpl) Inserts(data []*entities.UserFollowingTopic) (tx *gorm.DB, err error) {
 	tx = instance.db.Begin()
 	for i := range data {
 		err = tx.Create(&data[i]).Error
@@ -25,6 +28,7 @@ func (instance *UserFollowingTopicRepoImpl) Inserts(data []*entities.UserFollowi
 	return
 }
 
+//NewInstanceMysqlUserFollowingTopicRepoImpl new instance of UserFollowingTopicRepoImpl
 func NewInstanceMysqlUserFollowingTopicRepoImpl(db *gorm.DB) repository.UserFollowingTopicRepo {
 	return &UserFollowingTopicRepoImpl{db: db}
 }

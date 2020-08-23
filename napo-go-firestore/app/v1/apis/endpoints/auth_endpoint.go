@@ -8,10 +8,12 @@ import (
 	"net/http"
 )
 
+//AuthEndpoint struct
 type AuthEndpoint struct {
 	services *services.ServiceInjection
 }
 
+//NewAuthEndpoint create new instance for AuthEndpoint
 func NewAuthEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
 	instance := &AuthEndpoint{services: services}
 	g.POST("/auth", instance.doAuth)

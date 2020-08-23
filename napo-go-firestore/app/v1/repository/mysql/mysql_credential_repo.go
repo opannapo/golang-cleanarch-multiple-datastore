@@ -1,4 +1,4 @@
-package mysql_repository
+package mysqlrepository
 
 import (
 	"app/app/v1/entities"
@@ -6,16 +6,19 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//CredentialRepoImpl implement
 type CredentialRepoImpl struct {
 	Db *gorm.DB
 }
 
-func (instance *CredentialRepoImpl) Insert(data *entities.Credential) (err error, tx *gorm.DB) {
+//Insert credential user
+func (instance *CredentialRepoImpl) Insert(data *entities.Credential) (tx *gorm.DB, err error) {
 	tx = instance.Db.Begin()
 	err = instance.Db.Create(&data).Error
 	return
 }
 
+//GetByKeySignature get by key and signature
 func (instance *CredentialRepoImpl) GetByKeySignature(key string, signature string) (result entities.Credential, err error) {
 	err = instance.Db.
 		Preload("User").
@@ -26,6 +29,7 @@ func (instance *CredentialRepoImpl) GetByKeySignature(key string, signature stri
 	return
 }
 
+//NewInstanceMsqlCredentialRepoImpl new instance
 func NewInstanceMsqlCredentialRepoImpl(db *gorm.DB) repository.CredentialRepo {
 	return &CredentialRepoImpl{Db: db}
 }

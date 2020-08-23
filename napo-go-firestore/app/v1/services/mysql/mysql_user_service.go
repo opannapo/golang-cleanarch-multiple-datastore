@@ -1,4 +1,4 @@
-package mysql_services
+package mysqlservices
 
 import (
 	"app/app/v1/apis/param"
@@ -8,24 +8,29 @@ import (
 	"fmt"
 )
 
+//UserServiceImpl implement
 type UserServiceImpl struct {
 	Repository *repositories.RepositoryInjection
 }
 
+//GetUserForAuth get user for auth
 func (instance *UserServiceImpl) GetUserForAuth(username string, password string) (result *entities.User, err error) {
 	panic("implement me")
 }
 
+//GetUsers get all
 func (instance *UserServiceImpl) GetUsers() (result []*entities.User, err error) {
 	result, err = instance.Repository.MysqlUserRepo.GetAll()
 	return
 }
 
+//GetUser get one
 func (instance *UserServiceImpl) GetUser(id int) (result entities.User, err error) {
-	result, err = instance.Repository.MysqlUserRepo.GetById(id)
+	result, err = instance.Repository.MysqlUserRepo.GetByID(id)
 	return
 }
 
+//AddUser insert new user include all membership model
 func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	mysqlUserRepo := instance.Repository.MysqlUserRepo
 	mysqlTopicRepo := instance.Repository.MysqlTopicTypeRepo
@@ -42,7 +47,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		topicExist, err := mysqlTopicRepo.GetByLabel(label)
 		if err != nil {
 			tmp := entities.TopicType{
-				Id:    0,
+				ID:    0,
 				Label: label}
 			topicTypeTmpToCreate = append(topicTypeTmpToCreate, &tmp)
 		} else {
@@ -50,19 +55,23 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		}
 	}
 
-	err, txInsertTopic := mysqlTopicRepo.Inserts(topicTypeTmpToCreate)
-	if err != nil {
-		txInsertTopic.Rollback()
-		return
-	} else {
+	txInsertTopic, err := mysqlTopicRepo.Inserts(topicTypeTmpToCreate)
+	if err == nil {
 		topicTypeTmpExist = append(topicTypeTmpExist, topicTypeTmpToCreate...)
+	} else {
+		if txInsertTopic != nil {
+			txInsertTopic.Rollback()
+		}
+		return
 	}
 
 	//Insert User
-	err, txInsertUser := mysqlUserRepo.Insert(param)
+	txInsertUser, err := mysqlUserRepo.Insert(param)
 	if err != nil {
 		txInsertTopic.Rollback()
-		txInsertUser.Rollback()
+		if txInsertUser != nil {
+			txInsertUser.Rollback()
+		}
 		return
 	}
 
@@ -70,34 +79,38 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	var tmpUserFollowingTopic []*entities.UserFollowingTopic
 	for i := range topicTypeTmpExist {
 		tmp := entities.UserFollowingTopic{
-			UserId:      param.User.Id,
-			TopicTypeId: topicTypeTmpExist[i].Id,
+			UserID:      param.User.ID,
+			TopicTypeID: topicTypeTmpExist[i].ID,
 		}
 		fmt.Println(tmp)
 		tmpUserFollowingTopic = append(tmpUserFollowingTopic, &tmp)
 		fmt.Println(tmpUserFollowingTopic)
 	}
-	err, txInsertUserFollowingTopic := mysqlUserFollowingTopicRepo.Inserts(tmpUserFollowingTopic)
+	txInsertUserFollowingTopic, err := mysqlUserFollowingTopicRepo.Inserts(tmpUserFollowingTopic)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
-		txInsertUserFollowingTopic.Rollback()
+		if txInsertUserFollowingTopic != nil {
+			txInsertUserFollowingTopic.Rollback()
+		}
 		return
 	}
 
 	//Insert User Credential
-	param.Credential.UserId = param.User.Id
-	err, txInsertCredential := mysqlCredentialRepo.Insert(param.Credential)
+	param.Credential.UserID = param.User.ID
+	txInsertCredential, err := mysqlCredentialRepo.Insert(param.Credential)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
-		txInsertCredential.Rollback()
+		if txInsertCredential != nil {
+			txInsertCredential.Rollback()
+		}
 		return
 	}
 
 	//Insert FirestoreServicesInjected User
-	err, _ = firestoreUserRepo.Insert(param)
+	_, err = firestoreUserRepo.Insert(param)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
@@ -106,7 +119,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		return
 	}
 
-	err, _ = firestoreTopicTypeRepo.Inserts(topicTypeTmpExist)
+	_, err = firestoreTopicTypeRepo.Inserts(topicTypeTmpExist)
 	if err != nil {
 		txInsertTopic.Rollback()
 		txInsertUser.Rollback()
@@ -123,14 +136,17 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	return
 }
 
+//UpdateUser update user
 func (instance *UserServiceImpl) UpdateUser(user *entities.User) (err error) {
 	panic("implement me")
 }
 
+//DeleteUser delete one
 func (instance *UserServiceImpl) DeleteUser(user *entities.User) (err error) {
 	panic("implement me")
 }
 
+//NewInstanceMysqlUserServices instance of UserServiceImpl
 func NewInstanceMysqlUserServices(repository *repositories.RepositoryInjection) services.UserServices {
 	return &UserServiceImpl{Repository: repository}
 }

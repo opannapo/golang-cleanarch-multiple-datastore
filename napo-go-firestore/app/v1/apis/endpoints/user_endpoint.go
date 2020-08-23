@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+//UserEndpoint struct for user endpoint
 type UserEndpoint struct {
 	services *services.ServiceInjection
 }
@@ -67,6 +68,7 @@ func (instance *UserEndpoint) deleteUser(c *gin.Context) {
 
 }
 
+//NewUserEndpoint --> new instance of UserEndpoint
 func NewUserEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
 	instance := &UserEndpoint{
 		services: services,

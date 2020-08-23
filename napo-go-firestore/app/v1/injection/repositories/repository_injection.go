@@ -8,6 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//RepositoryInjection struct
 type RepositoryInjection struct {
 	*mysqlRepoInjected
 	*firestoreRepoInjected
@@ -27,6 +28,7 @@ type firestoreRepoInjected struct {
 	FirestoreTopicTypeRepo repository.TopicTypeRepo
 }
 
+//NewInstanceRepositoryInjection new instance of RepositoryInjection struct
 func NewInstanceRepositoryInjection(db *gorm.DB, firestoreClient *firestore.Client) *RepositoryInjection {
 	ms := mysqlRepoInjected{
 		MysqlUserRepo:               repoImplMysql.NewInstanceMysqlUserRepoImpl(db),

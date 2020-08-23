@@ -1,4 +1,4 @@
-package firestore_repository
+package firestorerepository
 
 import (
 	"app/app/v1/apis/param"
@@ -13,10 +13,12 @@ import (
 	"strconv"
 )
 
+//UserRepoImpl implementation of interface
 type UserRepoImpl struct {
 	FirestoreClient *firestore.Client
 }
 
+//GetAll return users
 func (instance *UserRepoImpl) GetAll() (result []*entities.User, err error) {
 	documentIterator := instance.FirestoreClient.
 		Collection("users").
@@ -34,7 +36,7 @@ func (instance *UserRepoImpl) GetAll() (result []*entities.User, err error) {
 		data := doc.Data()
 		fmt.Println(data)
 		user := entities.User{
-			Id:        data["id"].(int64),
+			ID:        data["id"].(int64),
 			FirstName: data["firstName"].(string),
 			LastName:  data["lastName"].(string),
 		}
@@ -44,19 +46,22 @@ func (instance *UserRepoImpl) GetAll() (result []*entities.User, err error) {
 	return
 }
 
-func (instance *UserRepoImpl) GetById(id int) (result entities.User, err error) {
+//GetByID return user by id
+func (instance *UserRepoImpl) GetByID(id int) (result entities.User, err error) {
 	panic("implement me")
 }
 
+//GetByCredential return user get by credential
 func (instance *UserRepoImpl) GetByCredential(username string, password string) (result *entities.User, err error) {
 	panic("implement me")
 }
 
-func (instance *UserRepoImpl) Insert(param *param.UserCreate) (err error, tx *gorm.DB) {
+//Insert insert new user
+func (instance *UserRepoImpl) Insert(param *param.UserCreate) (tx *gorm.DB, err error) {
 	user := param.User
-	id := strconv.FormatInt(user.Id, 10)
+	id := strconv.FormatInt(user.ID, 10)
 	userMap := map[string]interface{}{
-		"id":              user.Id,
+		"id":              user.ID,
 		"firstName":       user.FirstName,
 		"lastName":        user.LastName,
 		"following_topic": param.FollowingTopic,
@@ -67,14 +72,17 @@ func (instance *UserRepoImpl) Insert(param *param.UserCreate) (err error, tx *go
 	return
 }
 
+//Update update user
 func (instance *UserRepoImpl) Update(user *entities.User) (err error) {
 	panic("implement me")
 }
 
+//Delete delete user
 func (instance *UserRepoImpl) Delete(user *entities.User) (err error) {
 	panic("implement me")
 }
 
+//NewInstanceFirestoreUserRepoImpl new instance of UserRepoImpl
 func NewInstanceFirestoreUserRepoImpl(firestoreClient *firestore.Client) repository.UserRepo {
 	return &UserRepoImpl{FirestoreClient: firestoreClient}
 }

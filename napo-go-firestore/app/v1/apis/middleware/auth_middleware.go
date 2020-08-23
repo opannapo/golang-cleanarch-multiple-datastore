@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+//ValidateHeaderToken function as middleware to handling user token validation
 func ValidateHeaderToken() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		returnErr := func(msg string) {

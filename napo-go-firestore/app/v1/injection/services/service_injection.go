@@ -4,10 +4,11 @@ import (
 	"app/app/v1/injection/repositories"
 	serviceInterface "app/app/v1/services"
 	serviceImplFirestore "app/app/v1/services/firestore"
-	serviceImplGeneral "app/app/v1/services/general"
+	serviceImplGeneral "app/app/v1/services/generalservices"
 	serviceImplMysql "app/app/v1/services/mysql"
 )
 
+//ServiceInjection struct
 type ServiceInjection struct {
 	*mysqlServicesInjected
 	*firestoreServicesInjected
@@ -31,6 +32,7 @@ type generalServicesInjected struct {
 	AuthService serviceInterface.AuthServices
 }
 
+//NewInstanceServiceInjection new instance of ServiceInjection, & generate all services Instance
 func NewInstanceServiceInjection(repository *repositories.RepositoryInjection) *ServiceInjection {
 	ms := mysqlServicesInjected{
 		MysqlUserService:               serviceImplMysql.NewInstanceMysqlUserServices(repository),
