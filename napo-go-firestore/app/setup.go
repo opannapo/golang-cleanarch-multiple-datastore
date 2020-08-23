@@ -11,6 +11,7 @@ import (
 	"log"
 )
 
+//SetupConfig --> Function Setup Config
 func SetupConfig(arg string) {
 	var configFile string
 	switch arg {
@@ -39,6 +40,7 @@ func SetupConfig(arg string) {
 	println("Config Port : " + viper.GetString("server.address"))
 }
 
+//SetupDbConnection --> Function to Setup DB Connection
 func SetupDbConnection() *gorm.DB {
 	println("setupDbConnection")
 	user := viper.GetString("database.user")
@@ -64,6 +66,7 @@ func SetupDbConnection() *gorm.DB {
 	return db
 }
 
+//SetupFirestore --> Fuction to setup Firestore Configuration
 func SetupFirestore() *firestore.Client {
 	ctx := context.Background()
 	sa := option.WithCredentialsFile("./config/firebase/firebase-config.json")
