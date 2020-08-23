@@ -2,7 +2,7 @@
 Golang CleanArch With Multiple Data Store
 
 | K | V
-| ------ |
+| ------ | ------ | 
 | Project Structure | Package, Manual DI, Etc
 | Firebase Firestore | Realtime Database
 | MySql | Database
