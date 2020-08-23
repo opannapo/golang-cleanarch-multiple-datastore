@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// SetupRoute Router Setup
+//SetupRoute Router Setup
 func SetupRoute(services *services.ServiceInjection) {
 	gin.SetMode(viper.GetString("mode"))
 	router := gin.Default()
