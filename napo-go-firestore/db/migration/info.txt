@@ -1,0 +1,3 @@
+info.txt
+CLI script migration golang-migrate
+migrate -path /media/WinLin/GOLANG-PROJECT/GIT/golang-cleanarch-multiple-datastore/napo-go-firestore/db/migration -database "mysql://napouser:napouser@tcp(localhost:3306)/napo-firestore?multiStatements=true" -verbose up 
