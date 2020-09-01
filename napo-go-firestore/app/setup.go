@@ -16,17 +16,11 @@ func SetupConfig(arg string) {
 	var configFile string
 	switch arg {
 	case "local":
-		{
-			configFile = "./config/config.json"
-		}
+		configFile = "./config/config.json"
 	case "dev":
-		{
-			configFile = "./config/config-dev.json"
-		}
+		configFile = "./config/config-dev.json"
 	case "prod":
-		{
-			configFile = "./config/config-prod.json"
-		}
+		configFile = "./config/config-prod.json"
 	}
 
 	viper.SetConfigFile(configFile)
