@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `credential`
     PRIMARY KEY (`id`),
     UNIQUE KEY `credential_UN` (`key`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 15
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4;
 
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `topic_type`
     `label` varchar(100) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 99
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4;
 
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `user`
     `email`           varchar(100) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 110
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4;
 
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `user_following_topic`
     INDEX uft_user_id_idx (user_id),
     INDEX uft_topic_type_id_idx (topic_type_id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 211
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4;
 
 

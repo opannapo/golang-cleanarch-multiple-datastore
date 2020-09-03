@@ -1,6 +1,7 @@
 package endpoints
 
 import (
+	"app/app/v1/apis/constant"
 	"app/app/v1/apis/endpoints/base"
 	"app/app/v1/apis/middleware"
 	"app/app/v1/apis/param"
@@ -8,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 //UserEndpoint struct for user endpoint
@@ -52,11 +54,25 @@ func (instance *UserEndpoint) addUser(c *gin.Context) {
 		return
 	}
 
-	err = instance.services.MysqlUserService.AddUser(&p)
-	if err != nil {
-		base.OutFailed(c, 500, err.Error())
+	if len(p.Credential.Key) < 6 {
+		base.OutFailed(c, http.StatusBadRequest, "Credential Key Must be > 6 character")
+		c.AbortWithStatus(200)
 		return
 	}
+
+	err = instance.services.MysqlUserService.AddUser(&p)
+	if err != nil {
+		if strings.ContainsAny("Error 1062: Duplicate entry for key 'credential_UN'", err.Error()) {
+			base.OutFailed(c, 500, constant.GetErrorMessage(constant.ErrDuplicateCredentialUserName))
+		} else {
+			base.OutFailed(c, 500, err.Error())
+		}
+
+		return
+	}
+
+	//remove credential object on response
+	p.Credential = nil
 	base.OutOk(c, p)
 }
 
