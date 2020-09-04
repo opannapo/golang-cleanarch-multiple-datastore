@@ -7,10 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//TopicTypeEndpoint struct for Topic Type endpoint
 type TopicTypeEndpoint struct {
 	services *serviceinjection.ServiceInjection
 }
 
+//NewTopicTypeEndpoint new instance of NewTopicTypeEndpoint
 func NewTopicTypeEndpoint(g *gin.RouterGroup, injection *serviceinjection.ServiceInjection) {
 	instance := &TopicTypeEndpoint{services: injection}
 	gUserAuth := g.Group("", middleware.ValidateHeaderToken())
