@@ -11,6 +11,7 @@ alt="IMAGE ALT TEXT HERE" width="10%" height="10%" border="2" />
 | Project Structure | Package, Manual DI, Etc
 | Firebase Firestore | Realtime Database
 | MySql | Database
+| Redis | Database / Cache
 | Gin | Http Handler, Routing, Endpoint
 | Gorm | ORM, Relationship Model, Query
 | Viper | App Configuration
