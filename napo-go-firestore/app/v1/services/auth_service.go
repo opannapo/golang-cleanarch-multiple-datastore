@@ -11,7 +11,7 @@ import (
 
 //AuthService general AuthService
 type AuthService struct {
-	Repositories *repositories.RepositoryInjection
+	Repositories *repoinjection.RepositoryInjection
 }
 
 //ValidateCredential service to validate credential then return jwt token
@@ -37,7 +37,7 @@ func (instance *AuthService) ValidateCredential(param *param.AuthParam) (result 
 }
 
 //NewInstanceAuthService new instance of AuthService
-func NewInstanceAuthService(repositories *repositories.RepositoryInjection) AuthServices {
+func NewInstanceAuthService(repositories *repoinjection.RepositoryInjection) AuthServices {
 	return &AuthService{
 		Repositories: repositories,
 	}

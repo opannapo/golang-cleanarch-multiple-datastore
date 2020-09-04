@@ -7,7 +7,7 @@ import (
 
 //UserFollowingTopicService implement
 type UserFollowingTopicService struct {
-	Repository *repositories.RepositoryInjection
+	Repository *repoinjection.RepositoryInjection
 }
 
 //Insert insert one
@@ -28,6 +28,6 @@ func (instance *UserFollowingTopicService) Inserts(data []*entities.UserFollowin
 }
 
 //NewInstanceMysqlUserFollowingTopicService new instance of
-func NewInstanceMysqlUserFollowingTopicService(repository *repositories.RepositoryInjection) UserFollowingTopicServices {
+func NewInstanceMysqlUserFollowingTopicService(repository *repoinjection.RepositoryInjection) UserFollowingTopicServices {
 	return &UserFollowingTopicService{Repository: repository}
 }

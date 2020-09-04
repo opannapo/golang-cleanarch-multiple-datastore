@@ -14,11 +14,30 @@ import (
 
 //UserEndpoint struct for user endpoint
 type UserEndpoint struct {
-	services *services.ServiceInjection
+	services *serviceinjection.ServiceInjection
+}
+
+//NewUserEndpoint --> new instance of UserEndpoint
+func NewUserEndpoint(g *gin.RouterGroup, services *serviceinjection.ServiceInjection) {
+	instance := &UserEndpoint{
+		services: services,
+	}
+
+	//No Middleware
+	g.POST("user/add", instance.addUser)
+
+	//Auth Middleware only for this request
+	gUserAuth := g.Group("", middleware.ValidateHeaderToken())
+	{
+		gUserAuth.GET("user", instance.getUser)
+		gUserAuth.GET("users", instance.getUsers)
+		gUserAuth.POST("user/update", instance.updateUser)
+		gUserAuth.POST("user/delete", instance.deleteUser)
+	}
 }
 
 func (instance *UserEndpoint) getUser(c *gin.Context) {
-	mysqlUser := instance.services.MysqlUserService
+	mysqlUser := instance.services.UserService
 	req := c.Request.URL.Query()
 	id, _ := strconv.Atoi(req.Get("id"))
 	result, err := mysqlUser.GetUser(id)
@@ -30,7 +49,7 @@ func (instance *UserEndpoint) getUser(c *gin.Context) {
 }
 
 func (instance *UserEndpoint) getUsers(c *gin.Context) {
-	mysqlUser := instance.services.MysqlUserService
+	mysqlUser := instance.services.UserService
 	data, err := mysqlUser.GetUsers()
 	//data, err := instance.FirestoreUserService.GetUsers()
 	if err != nil {
@@ -60,7 +79,7 @@ func (instance *UserEndpoint) addUser(c *gin.Context) {
 		return
 	}
 
-	err = instance.services.MysqlUserService.AddUser(&p)
+	err = instance.services.UserService.AddUser(&p)
 	if err != nil {
 		if strings.ContainsAny("Error 1062: Duplicate entry for key 'credential_UN'", err.Error()) {
 			base.OutFailed(c, 500, constant.GetErrorMessage(constant.ErrDuplicateCredentialUserName))
@@ -82,23 +101,4 @@ func (instance *UserEndpoint) updateUser(c *gin.Context) {
 
 func (instance *UserEndpoint) deleteUser(c *gin.Context) {
 
-}
-
-//NewUserEndpoint --> new instance of UserEndpoint
-func NewUserEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
-	instance := &UserEndpoint{
-		services: services,
-	}
-
-	//No Middleware
-	g.POST("user/add", instance.addUser)
-
-	//Auth Middleware only for this request
-	gUserAuth := g.Group("", middleware.ValidateHeaderToken())
-	{
-		gUserAuth.GET("user", instance.getUser)
-		gUserAuth.GET("users", instance.getUsers)
-		gUserAuth.POST("user/update", instance.updateUser)
-		gUserAuth.POST("user/delete", instance.deleteUser)
-	}
 }

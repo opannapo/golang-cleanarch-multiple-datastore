@@ -9,7 +9,7 @@ import (
 )
 
 //SetupRoute Router Setup
-func SetupRoute(services *services.ServiceInjection) {
+func SetupRoute(services *serviceinjection.ServiceInjection) {
 	gin.SetMode(viper.GetString("mode"))
 	router := gin.Default()
 
@@ -32,6 +32,7 @@ func SetupRoute(services *services.ServiceInjection) {
 		endpoints.NewIndexEndpoint(v1)
 		endpoints.NewUserEndpoint(v1, services)
 		endpoints.NewAuthEndpoint(v1, services)
+		endpoints.NewTopicTypeEndpoint(v1, services)
 	}
 
 	_ = router.Run(viper.GetString("server.address"))

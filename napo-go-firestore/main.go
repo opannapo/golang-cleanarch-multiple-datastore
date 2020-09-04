@@ -2,8 +2,8 @@ package main
 
 import (
 	"app/app"
-	repository2 "app/app/v1/injection/repositories"
-	services2 "app/app/v1/injection/services"
+	"app/app/v1/injection/repositories"
+	"app/app/v1/injection/services"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -85,8 +85,8 @@ func cmdStart(evn string) {
 	defer firestoreClient.Close()
 
 	//Inject Dependency for All Repository & Services
-	repository := repository2.NewInstanceRepositoryInjection(db, firestoreClient)
-	services := services2.NewInstanceServiceInjection(repository)
+	repository := repoinjection.NewInstanceRepositoryInjection(db, firestoreClient)
+	services := serviceinjection.NewInstanceServiceInjection(repository)
 
 	//setup router
 	app.SetupRoute(services)

@@ -3,18 +3,18 @@ package endpoints
 import (
 	"app/app/v1/apis/endpoints/base"
 	"app/app/v1/apis/param"
-	"app/app/v1/injection/services"
+	serviceinjection "app/app/v1/injection/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 //AuthEndpoint struct
 type AuthEndpoint struct {
-	services *services.ServiceInjection
+	services *serviceinjection.ServiceInjection
 }
 
 //NewAuthEndpoint create new instance for AuthEndpoint
-func NewAuthEndpoint(g *gin.RouterGroup, services *services.ServiceInjection) {
+func NewAuthEndpoint(g *gin.RouterGroup, services *serviceinjection.ServiceInjection) {
 	instance := &AuthEndpoint{services: services}
 	g.POST("/auth", instance.doAuth)
 }

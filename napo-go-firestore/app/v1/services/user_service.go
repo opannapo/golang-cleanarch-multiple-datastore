@@ -9,7 +9,7 @@ import (
 
 //UserServiceImpl implement
 type UserServiceImpl struct {
-	Repository *repositories.RepositoryInjection
+	Repository *repoinjection.RepositoryInjection
 }
 
 //GetUserForAuth get user for auth
@@ -146,6 +146,6 @@ func (instance *UserServiceImpl) DeleteUser(user *entities.User) (err error) {
 }
 
 //NewInstanceMysqlUserServices instance of UserServiceImpl
-func NewInstanceMysqlUserServices(repository *repositories.RepositoryInjection) UserServices {
+func NewInstanceMysqlUserServices(repository *repoinjection.RepositoryInjection) UserServices {
 	return &UserServiceImpl{Repository: repository}
 }

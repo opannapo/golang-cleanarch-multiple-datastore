@@ -1,4 +1,4 @@
-package repositories
+package repoinjection
 
 import (
 	"app/app/v1/repository"

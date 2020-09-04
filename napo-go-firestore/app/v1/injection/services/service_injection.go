@@ -1,4 +1,4 @@
-package services
+package serviceinjection
 
 import (
 	"app/app/v1/injection/repositories"
@@ -8,24 +8,23 @@ import (
 //ServiceInjection struct
 type ServiceInjection struct {
 	*servicesInjected
-	repository *repositories.RepositoryInjection
+	repository *repoinjection.RepositoryInjection
 }
 
 type servicesInjected struct {
-	MysqlUserService               serviceInterface.UserServices
-	MysqlTopicTypeService          serviceInterface.TopicTypeServices
-	MysqlUserFollowingTopicService serviceInterface.UserFollowingTopicServices
-	MysqlAuthService               serviceInterface.AuthServices
-	AuthService                    serviceInterface.AuthServices
+	UserService               serviceInterface.UserServices
+	TopicTypeService          serviceInterface.TopicTypeServices
+	UserFollowingTopicService serviceInterface.UserFollowingTopicServices
+	AuthService               serviceInterface.AuthServices
 }
 
 //NewInstanceServiceInjection new instance of ServiceInjection, & generate all services Instance
-func NewInstanceServiceInjection(repository *repositories.RepositoryInjection) *ServiceInjection {
+func NewInstanceServiceInjection(repository *repoinjection.RepositoryInjection) *ServiceInjection {
 	ms := servicesInjected{
-		MysqlUserService:               serviceInterface.NewInstanceMysqlUserServices(repository),
-		MysqlTopicTypeService:          serviceInterface.NewInstanceMysqlTopicTypeServices(repository),
-		MysqlUserFollowingTopicService: serviceInterface.NewInstanceMysqlUserFollowingTopicService(repository),
-		AuthService:                    serviceInterface.NewInstanceAuthService(repository),
+		UserService:               serviceInterface.NewInstanceMysqlUserServices(repository),
+		TopicTypeService:          serviceInterface.NewInstanceMysqlTopicTypeServices(repository),
+		UserFollowingTopicService: serviceInterface.NewInstanceMysqlUserFollowingTopicService(repository),
+		AuthService:               serviceInterface.NewInstanceAuthService(repository),
 	}
 
 	return &ServiceInjection{

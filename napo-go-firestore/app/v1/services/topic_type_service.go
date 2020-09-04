@@ -7,7 +7,7 @@ import (
 
 //TopicTypeServiceImpl implement
 type TopicTypeServiceImpl struct {
-	Repository *repositories.RepositoryInjection
+	Repository *repoinjection.RepositoryInjection
 }
 
 //GetOneByLabel get by label
@@ -36,6 +36,6 @@ func (instance *TopicTypeServiceImpl) Insert(data *entities.TopicType) (err erro
 }
 
 //NewInstanceMysqlTopicTypeServices new instance of TopicTypeServiceImpl
-func NewInstanceMysqlTopicTypeServices(repository *repositories.RepositoryInjection) TopicTypeServices {
+func NewInstanceMysqlTopicTypeServices(repository *repoinjection.RepositoryInjection) TopicTypeServices {
 	return &TopicTypeServiceImpl{Repository: repository}
 }
