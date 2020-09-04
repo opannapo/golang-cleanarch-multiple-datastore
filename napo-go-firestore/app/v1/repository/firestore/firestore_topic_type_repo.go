@@ -49,6 +49,7 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 	return
 }*/
 
+//Inserts TopicTypeRepoImpl, insert multiple to Firestore
 func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
 	for i := range data {
 		tmpData := data[i]

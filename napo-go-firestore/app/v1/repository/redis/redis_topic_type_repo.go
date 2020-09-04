@@ -46,6 +46,7 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 	instance.RedisClient.Set(context.Background(),constant.RedisKeyTopicTypeAll,data,10000)
 }*/
 
+//Inserts TopicTypeRepoImpl, insert multiple to Redis
 func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
 	tx = &repository.TransactionStruct{
 		GormTX:  nil,
