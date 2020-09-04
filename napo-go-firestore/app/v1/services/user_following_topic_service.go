@@ -1,9 +1,8 @@
-package mysqlservices
+package services
 
 import (
 	"app/app/v1/entities"
 	"app/app/v1/injection/repositories"
-	"app/app/v1/services"
 )
 
 //UserFollowingTopicService implement
@@ -29,6 +28,6 @@ func (instance *UserFollowingTopicService) Inserts(data []*entities.UserFollowin
 }
 
 //NewInstanceMysqlUserFollowingTopicService new instance of
-func NewInstanceMysqlUserFollowingTopicService(repository *repositories.RepositoryInjection) services.UserFollowingTopicServices {
+func NewInstanceMysqlUserFollowingTopicService(repository *repositories.RepositoryInjection) UserFollowingTopicServices {
 	return &UserFollowingTopicService{Repository: repository}
 }

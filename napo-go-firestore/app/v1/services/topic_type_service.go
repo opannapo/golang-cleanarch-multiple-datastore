@@ -1,9 +1,8 @@
-package mysqlservices
+package services
 
 import (
 	"app/app/v1/entities"
 	"app/app/v1/injection/repositories"
-	"app/app/v1/services"
 )
 
 //TopicTypeServiceImpl implement
@@ -37,6 +36,6 @@ func (instance *TopicTypeServiceImpl) Insert(data *entities.TopicType) (err erro
 }
 
 //NewInstanceMysqlTopicTypeServices new instance of TopicTypeServiceImpl
-func NewInstanceMysqlTopicTypeServices(repository *repositories.RepositoryInjection) services.TopicTypeServices {
+func NewInstanceMysqlTopicTypeServices(repository *repositories.RepositoryInjection) TopicTypeServices {
 	return &TopicTypeServiceImpl{Repository: repository}
 }

@@ -1,10 +1,9 @@
-package generalservices
+package services
 
 import (
 	"app/app/v1/apis/param"
 	"app/app/v1/entities"
 	"app/app/v1/injection/repositories"
-	"app/app/v1/services"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
 	"time"
@@ -38,7 +37,7 @@ func (instance *AuthService) ValidateCredential(param *param.AuthParam) (result 
 }
 
 //NewInstanceAuthService new instance of AuthService
-func NewInstanceAuthService(repositories *repositories.RepositoryInjection) services.AuthServices {
+func NewInstanceAuthService(repositories *repositories.RepositoryInjection) AuthServices {
 	return &AuthService{
 		Repositories: repositories,
 	}

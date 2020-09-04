@@ -1,10 +1,9 @@
-package mysqlservices
+package services
 
 import (
 	"app/app/v1/apis/param"
 	"app/app/v1/entities"
 	"app/app/v1/injection/repositories"
-	"app/app/v1/services"
 	"fmt"
 )
 
@@ -147,6 +146,6 @@ func (instance *UserServiceImpl) DeleteUser(user *entities.User) (err error) {
 }
 
 //NewInstanceMysqlUserServices instance of UserServiceImpl
-func NewInstanceMysqlUserServices(repository *repositories.RepositoryInjection) services.UserServices {
+func NewInstanceMysqlUserServices(repository *repositories.RepositoryInjection) UserServices {
 	return &UserServiceImpl{Repository: repository}
 }
