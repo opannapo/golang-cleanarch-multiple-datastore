@@ -10,10 +10,12 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
+//TopicTypeRepoImpl implementation of interface
 type TopicTypeRepoImpl struct {
 	RedisClient *redis.Client
 }
 
+//GetAll TopicTypeRepoImpl get all data, result as slice and err :: from Redis
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
 	resultAsJson, err := instance.RedisClient.Get(context.Background(), constant.RedisKeyTopicTypeAll).Result()
 	if err != nil {
@@ -34,10 +36,12 @@ func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err e
 	return
 }
 
+//GetByLabel TopicTypeRepoImpl get by label  :: from Redis
 func (instance *TopicTypeRepoImpl) GetByLabel(label string) (result entities.TopicType, err error) {
 	panic("implement me")
 }
 
+//Insert TopicTypeRepoImpl, insert one
 func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) {
 	panic("implement me")
 }
@@ -46,7 +50,7 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 	instance.RedisClient.Set(context.Background(),constant.RedisKeyTopicTypeAll,data,10000)
 }*/
 
-//Inserts TopicTypeRepoImpl, insert multiple to Redis
+//Inserts TopicTypeRepoImpl, insert multiple to Redis :: from Redis
 func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
 	tx = &repository.TransactionStruct{
 		GormTX:  nil,
@@ -64,6 +68,7 @@ func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repo
 	return
 }
 
+//NewInstanceTopicTypeRepoImpl new instance of TopicTypeRepoImpl :: from Redis
 func NewInstanceTopicTypeRepoImpl(redisClient *redis.Client) repository.TopicTypeRepo {
 	return &TopicTypeRepoImpl{RedisClient: redisClient}
 }
