@@ -25,7 +25,15 @@ func (instance *TopicTypeServiceImpl) Inserts(data []*entities.TopicType) (err e
 
 //GetAll get all
 func (instance *TopicTypeServiceImpl) GetAll() (result []*entities.TopicType, err error) {
-	result, err = instance.Repository.MysqlTopicTypeRepo.GetAll()
+	//result, err = instance.Repository.MysqlTopicTypeRepo.GetAll()
+
+	result, err = instance.Repository.RedisTopicTypeRepo.GetAll() //get from redis
+	if err != nil {
+		result, err = instance.Repository.MysqlTopicTypeRepo.GetAll()
+		if len(result) > 0 {
+			_, _ = instance.Repository.RedisTopicTypeRepo.Inserts(result) //set to redis
+		}
+	}
 	return
 }
 

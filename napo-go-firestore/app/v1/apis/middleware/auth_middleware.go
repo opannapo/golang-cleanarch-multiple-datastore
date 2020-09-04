@@ -37,7 +37,7 @@ func ValidateHeaderToken() gin.HandlerFunc {
 		tokenString := splitHeaderAuth[1]
 		key := viper.GetString("jwtKey")
 		_, err := jwt.Parse(tokenString, func(token *jwt.Token) (i interface{}, e error) {
-			fmt.Printf("Token Parse Token  %+v\n", token)
+			//fmt.Printf("Token Parse Token  %+v\n", token)
 			if token.Method != jwt.GetSigningMethod("HS256") { //Validate Algorithm HS256
 				return nil, fmt.Errorf("Invalid Algorithm for token %v ", tokenString)
 			}

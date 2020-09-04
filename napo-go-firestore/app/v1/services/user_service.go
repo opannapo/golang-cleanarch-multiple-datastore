@@ -59,7 +59,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		topicTypeTmpExist = append(topicTypeTmpExist, topicTypeTmpToCreate...)
 	} else {
 		if txInsertTopic != nil {
-			txInsertTopic.Rollback()
+			txInsertTopic.GormTX.Rollback()
 		}
 		return
 	}
@@ -67,7 +67,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	//Insert User
 	txInsertUser, err := mysqlUserRepo.Insert(param)
 	if err != nil {
-		txInsertTopic.Rollback()
+		txInsertTopic.GormTX.Rollback()
 		if txInsertUser != nil {
 			txInsertUser.Rollback()
 		}
@@ -87,7 +87,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	}
 	txInsertUserFollowingTopic, err := mysqlUserFollowingTopicRepo.Inserts(tmpUserFollowingTopic)
 	if err != nil {
-		txInsertTopic.Rollback()
+		txInsertTopic.GormTX.Rollback()
 		txInsertUser.Rollback()
 		if txInsertUserFollowingTopic != nil {
 			txInsertUserFollowingTopic.Rollback()
@@ -99,7 +99,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	param.Credential.UserID = param.User.ID
 	txInsertCredential, err := mysqlCredentialRepo.Insert(param.Credential)
 	if err != nil {
-		txInsertTopic.Rollback()
+		txInsertTopic.GormTX.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
 		if txInsertCredential != nil {
@@ -111,7 +111,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	//Insert FirestoreServicesInjected User
 	_, err = firestoreUserRepo.Insert(param)
 	if err != nil {
-		txInsertTopic.Rollback()
+		txInsertTopic.GormTX.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
 		txInsertCredential.Rollback()
@@ -120,14 +120,14 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 
 	_, err = firestoreTopicTypeRepo.Inserts(topicTypeTmpExist)
 	if err != nil {
-		txInsertTopic.Rollback()
+		txInsertTopic.GormTX.Rollback()
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
 		txInsertCredential.Rollback()
 		return
 	}
 
-	txInsertTopic.Commit()
+	txInsertTopic.GormTX.Commit()
 	txInsertUser.Commit()
 	txInsertUserFollowingTopic.Commit()
 	txInsertCredential.Commit()

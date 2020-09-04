@@ -3,6 +3,7 @@ package mysqlrepository
 import (
 	"app/app/v1/entities"
 	"app/app/v1/repository"
+	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,6 +15,7 @@ type TopicTypeRepoImpl struct {
 //GetAll return all
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
 	err = instance.Db.Find(&result).Error
+	fmt.Println("Load from MySql")
 	return
 }
 
@@ -30,10 +32,14 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 }
 
 //Inserts insert multiple
-func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *gorm.DB, err error) {
-	tx = instance.Db.Begin()
+func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
+	tx = &repository.TransactionStruct{
+		GormTX:  instance.Db.Begin(),
+		RedisTX: nil,
+	}
+
 	for i := range data {
-		err = tx.Create(&data[i]).Error
+		err = tx.GormTX.Create(&data[i]).Error
 		if err != nil {
 			break
 		}

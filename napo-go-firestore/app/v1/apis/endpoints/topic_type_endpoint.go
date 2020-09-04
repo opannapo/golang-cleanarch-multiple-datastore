@@ -25,6 +25,7 @@ func (instance *TopicTypeEndpoint) getTopicTypes(c *gin.Context) {
 	result, err := instance.services.TopicTypeService.GetAll()
 	if err != nil {
 		base.OutFailed(c, 400, err.Error())
+	} else {
+		base.OutOk(c, result)
 	}
-	base.OutOk(c, result)
 }
