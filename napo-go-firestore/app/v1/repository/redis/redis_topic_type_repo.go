@@ -75,7 +75,7 @@ func (instance *TopicTypeRepoImpl) Upserts(data []*entities.TopicType) (tx *repo
 
 	//Check Exists
 	existsResult, err := instance.RedisClient.Do(ctx,
-		"EXISTS",
+		constant.RedisCmdExists,
 		constant.RedisKeyTopicTypeAll,
 	).Result()
 	fmt.Printf("existsResult %v ", existsResult)

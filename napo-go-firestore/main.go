@@ -91,6 +91,5 @@ func cmdStart(evn string) {
 	repository := repoinjection.NewInstanceRepositoryInjection(db, firestoreClient, redisClient)
 	services := serviceinjection.NewInstanceServiceInjection(repository)
 
-	//setup router
 	app.SetupRoute(services)
 }
