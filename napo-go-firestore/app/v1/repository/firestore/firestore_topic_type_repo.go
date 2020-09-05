@@ -50,7 +50,7 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 }*/
 
 //Inserts TopicTypeRepoImpl, insert multiple to Firestore
-func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
+func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
 	for i := range data {
 		tmpData := data[i]
 		id := strconv.FormatInt(tmpData.ID, 10)

@@ -5,7 +5,6 @@ import (
 	"app/app/v1/injection/repositories"
 	"app/app/v1/injection/services"
 	"fmt"
-	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
@@ -77,7 +76,6 @@ func cmdH() {
 }
 
 func cmdStart(evn string) {
-	//Sertup COnfig
 	app.SetupConfig(evn)
 
 	db := app.SetupDbConnection()
@@ -86,11 +84,7 @@ func cmdStart(evn string) {
 	firestoreClient := app.SetupFirestore()
 	defer firestoreClient.Close()
 
-	redisClient := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+	redisClient := app.SetupCacheRedisConnection()
 	defer redisClient.Close()
 
 	//Inject Dependency for All Repository & Services

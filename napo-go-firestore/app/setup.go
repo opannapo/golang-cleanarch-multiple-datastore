@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"fmt"
+	"github.com/go-redis/redis/v8"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -58,6 +59,20 @@ func SetupDbConnection() *gorm.DB {
 	}
 
 	return db
+}
+
+//SetupCacheRedisConnection setup redis config
+func SetupCacheRedisConnection() *redis.Client {
+	addr := viper.GetString("cache_redis.addr")
+	password := viper.GetString("cache_redis.password")
+	db := viper.GetInt("cache_redis.db")
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     addr,
+		Password: password,
+		DB:       db,
+	})
+
+	return redisClient
 }
 
 //SetupFirestore --> Fuction to setup Firestore Configuration

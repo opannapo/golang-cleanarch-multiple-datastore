@@ -32,8 +32,8 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 }
 
 //Inserts insert multiple
-func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
-	tx = &repository.TransactionStruct{
+func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
+	tx = &repository.DbTransactionType{
 		GormTX:  instance.Db.Begin(),
 		RedisTX: nil,
 	}

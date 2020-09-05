@@ -46,13 +46,9 @@ func (instance *TopicTypeRepoImpl) Insert(data *entities.TopicType) (err error) 
 	panic("implement me")
 }
 
-/*func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *gorm.DB, err error) {
-	instance.RedisClient.Set(context.Background(),constant.RedisKeyTopicTypeAll,data,10000)
-}*/
-
 //Inserts TopicTypeRepoImpl, insert multiple to Redis :: from Redis
-func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.TransactionStruct, err error) {
-	tx = &repository.TransactionStruct{
+func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
+	tx = &repository.DbTransactionType{
 		GormTX:  nil,
 		RedisTX: nil,
 	}

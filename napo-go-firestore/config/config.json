@@ -13,6 +13,11 @@
     "pass": "napouser",
     "name": "napo-firestore"
   },
+  "cache_redis": {
+    "addr": "localhost:6379",
+    "password": "",
+    "db": 0
+  },
   "reqToken": "ABC",
   "jwtKey": "12345678"
 }
