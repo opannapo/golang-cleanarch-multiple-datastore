@@ -22,6 +22,7 @@ type TopicTypeRepo interface {
 	GetByLabel(label string) (result entities.TopicType, err error)
 	Insert(data *entities.TopicType) (err error)
 	Inserts(data []*entities.TopicType) (tx *DbTransactionType, err error)
+	Upserts(data []*entities.TopicType) (tx *DbTransactionType, err error)
 }
 
 //UserFollowingTopicRepo interface layer

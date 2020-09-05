@@ -17,7 +17,7 @@ type TopicTypeRepoImpl struct {
 
 //GetAll TopicTypeRepoImpl get all data, result as slice and err :: from Redis
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
-	resultAsJson, err := instance.RedisClient.Get(context.Background(), constant.RedisKeyTopicTypeAll).Result()
+	resultAsJSON, err := instance.RedisClient.Get(context.Background(), constant.RedisKeyTopicTypeAll).Result()
 	if err != nil {
 		if err == redis.Nil {
 			fmt.Println("key does not exists")
@@ -26,7 +26,7 @@ func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err e
 		panic(err)
 	}
 
-	err = json.Unmarshal([]byte(resultAsJson), &result)
+	err = json.Unmarshal([]byte(resultAsJSON), &result)
 	if err != nil {
 		panic(err)
 	}
@@ -53,12 +53,49 @@ func (instance *TopicTypeRepoImpl) Inserts(data []*entities.TopicType) (tx *repo
 		RedisTX: nil,
 	}
 
-	dataJson, _ := json.Marshal(data)
-	result, err := instance.RedisClient.Set(context.Background(), constant.RedisKeyTopicTypeAll, dataJson, 0).Result()
+	dataJSON, _ := json.Marshal(data)
+	result, err := instance.RedisClient.Set(context.Background(), constant.RedisKeyTopicTypeAll, dataJSON, 0).Result()
 	fmt.Printf("result %+v err %+v", result, err)
 	if err != nil {
 		fmt.Printf("result %+v err %+v", result, err)
 		panic(err)
+	}
+
+	return
+}
+
+//Upserts TopicTypeRepoImpl, Upsert multiple to existing key Redis :: from Redis
+func (instance *TopicTypeRepoImpl) Upserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
+	tx = &repository.DbTransactionType{
+		GormTX:  nil,
+		RedisTX: nil,
+	}
+
+	ctx := context.Background()
+
+	//Check Exists
+	existsResult, err := instance.RedisClient.Do(ctx,
+		"EXISTS",
+		constant.RedisKeyTopicTypeAll,
+	).Result()
+	fmt.Printf("existsResult %v ", existsResult)
+
+	if existsResult.(int64) == 1 {
+		//getAll
+		resultCurrent, err := instance.GetAll()
+		if err == nil {
+			//Join
+			resultCurrent = append(resultCurrent, data...)
+			dataJSON, _ := json.Marshal(resultCurrent)
+
+			//Replace SET
+			result, err := instance.RedisClient.Set(ctx, constant.RedisKeyTopicTypeAll, dataJSON, 0).Result()
+			fmt.Printf("result %+v err %+v", result, err)
+			if err != nil {
+				fmt.Printf("result %+v err %+v", result, err)
+				panic(err)
+			}
+		}
 	}
 
 	return

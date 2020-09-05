@@ -12,6 +12,11 @@ type TopicTypeRepoImpl struct {
 	Db *gorm.DB
 }
 
+//Upserts ignore on this
+func (instance *TopicTypeRepoImpl) Upserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
+	panic("implement me")
+}
+
 //GetAll return all
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
 	err = instance.Db.Find(&result).Error

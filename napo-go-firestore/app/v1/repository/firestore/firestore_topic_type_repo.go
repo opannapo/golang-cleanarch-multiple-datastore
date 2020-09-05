@@ -13,6 +13,11 @@ type TopicTypeRepoImpl struct {
 	FirestoreClient *firestore.Client
 }
 
+//Upserts ignore on this
+func (instance *TopicTypeRepoImpl) Upserts(data []*entities.TopicType) (tx *repository.DbTransactionType, err error) {
+	panic("implement me")
+}
+
 //GetAll TopicTypeRepoImpl get all data, result as slice and err
 func (instance *TopicTypeRepoImpl) GetAll() (result []*entities.TopicType, err error) {
 	panic("implement me")

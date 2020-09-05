@@ -37,6 +37,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 	mysqlCredentialRepo := instance.Repository.MysqlCredentialRepo
 	firestoreUserRepo := instance.Repository.FirestoreUserRepo
 	firestoreTopicTypeRepo := instance.Repository.FirestoreTopicTypeRepo
+	redisTopicTypeRepo := instance.Repository.RedisTopicTypeRepo
 
 	//Check Topic Type master table
 	var topicTypeTmpToCreate []*entities.TopicType
@@ -126,6 +127,8 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		txInsertCredential.Rollback()
 		return
 	}
+
+	_, _ = redisTopicTypeRepo.Upserts(topicTypeTmpToCreate)
 
 	txInsertTopic.GormTX.Commit()
 	txInsertUser.Commit()
