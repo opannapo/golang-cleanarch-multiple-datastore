@@ -30,7 +30,7 @@ func main() {
 		}
 	} else if len(args) == 2 {
 		if args[0] == "-start" {
-			if args[1] == "local" || args[1] == "dev" || args[1] == "prod" {
+			if args[1] == "local" || args[1] == "dev" || args[1] == "prod" || args[1] == "docker-local" {
 				cmdStart(args[1])
 			} else {
 				printErr(args)
@@ -72,6 +72,7 @@ func cmdH() {
 	println("|   local             Local          |")
 	println("|   dev               Development    |")
 	println("|   prod              Production     |")
+	println("|   docker-local      Docker-Local   |")
 	println("--------------------------------------")
 }
 

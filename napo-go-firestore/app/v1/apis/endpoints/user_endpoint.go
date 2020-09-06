@@ -81,12 +81,13 @@ func (instance *UserEndpoint) addUser(c *gin.Context) {
 
 	err = instance.services.UserService.AddUser(&p)
 	if err != nil {
-		if strings.ContainsAny("Error 1062: Duplicate entry for key 'credential_UN'", err.Error()) {
+		if strings.Contains("Error 1062", err.Error()) {
 			base.OutFailed(c, 500, constant.GetErrorMessage(constant.ErrDuplicateCredentialUserName))
 		} else {
 			base.OutFailed(c, 500, err.Error())
 		}
 
+		panic(err)
 		return
 	}
 

@@ -19,7 +19,7 @@ func (instance *CredentialRepoImpl) Insert(data *entities.Credential) (tx *gorm.
 	newSignature := md5.Sum([]byte(data.Signature))
 	data.Signature = hex.EncodeToString(newSignature[:])
 	tx = instance.Db.Begin()
-	err = instance.Db.Create(&data).Error
+	err = tx.Create(&data).Error
 
 	return
 }

@@ -62,6 +62,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		if txInsertTopic != nil {
 			txInsertTopic.GormTX.Rollback()
 		}
+		panic(err)
 		return
 	}
 
@@ -93,6 +94,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		if txInsertUserFollowingTopic != nil {
 			txInsertUserFollowingTopic.Rollback()
 		}
+		panic(err)
 		return
 	}
 
@@ -116,6 +118,7 @@ func (instance *UserServiceImpl) AddUser(param *param.UserCreate) (err error) {
 		txInsertUser.Rollback()
 		txInsertUserFollowingTopic.Rollback()
 		txInsertCredential.Rollback()
+		err = fmt.Errorf("error insert firestore user")
 		return
 	}
 

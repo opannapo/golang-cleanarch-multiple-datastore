@@ -22,6 +22,8 @@ func SetupConfig(arg string) {
 		configFile = "./config/config-dev.json"
 	case "prod":
 		configFile = "./config/config-prod.json"
+	case "docker-local":
+		configFile = "./config/config-docker-local.json"
 	}
 
 	viper.SetConfigFile(configFile)
