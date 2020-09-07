@@ -21,29 +21,25 @@ alt="IMAGE ALT TEXT HERE" width="10%" height="10%" border="2" />
 
 
 
-##Project Structure
+## Project Structure
 ```
 -root project
-	└ app 			 		» Application Project
- 	└ config 				» Configuration Files (JSON, Firebase, etc...)
- 	└ db 					» Migration Script
+     └ app 			 	» Application Project
+     └ config 				» Configuration Files (JSON, Firebase, etc...)
+     └ db 				» Migration Script
 
 
-- app 						» Application Project 
-	└ apis 			 		» Application Layer / Application Business Rules
-		└ endpoints 			» Request-Response Controller 
-		└ middleware 			» Middleware 
-		
- 	└ entities 				» Domain Layer
-	
- 	└ injection				» Injection
- 		└ repositories 			» Repository types
- 		└ services 			» Service types
-		
- 	└ repository				» Data Layer
- 		└ firestore 			» Firestore Repository
- 		└ mysql				» Mysql Repository  
- 		└ redis 			» Redis Repository
-		
- 	└ services				» Enterprise Business Rules
+- app 					» Application Project 
+   └ apis 		 		» Application Layer / Application Business Rules
+       └ endpoints 			» Request-Response Controller 
+       └ middleware 			» Middleware 
+   └ entities 				» Domain Layer
+   └ injection				» Manual Dependency Injection
+       └ repositories 			» Repository types
+       └ services 			» Service types
+   └ repository				» Data Layer
+       └ firestore 			» Firestore Repository
+       └ mysql				» Mysql Repository  
+       └ redis 				» Redis Repository
+   └ services				» Enterprise Business Rules
 ```
